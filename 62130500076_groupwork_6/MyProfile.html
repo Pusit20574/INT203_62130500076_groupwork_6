@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Vue Js - HelloWorld App</title>
+
+    <!-- https://google.github.io/material-design-icons/#icon-font-for-the-web -->
+    <!-- Using via Google Web Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <!-- https://tailwindcss.com/docs/installation -->
+    <!-- Using Tailwind via CDN -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+
+    <!-- https://v3.vuejs.org/guide/installation.html#release-notes -->
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div class="flex">
+            <div class="container flex justify-center py-20 -mt-16">
+                <div class="py-10 pr-14 bg-white rounded-xl max-w-xl hover:shadow">
+                    <!-- img -->
+                    <div class="flex justify-between w-full ml-5"> <img :src="img" width="250" class="rounded-lg">
+                        <div class="ml-2">
+                            <div class="p-3">
+                                <!-- details profile -->
+                                <h3 class="text-2xl">{{ name }}</h3> <span>{{ position }}</span>
+                            </div>
+
+                            <div class="flex justify-between items-center p-3 bg-gray-200 rounded-lg">
+                                <!-- details follower profile -->
+                                <div class="mr-3"> <span class="text-gray-400 block">Article</span> <span
+                                        class="font-bold text-black text-xl">{{ article }}</span> </div>
+                                <div class="mr-3"> <span class="text-gray-400 block">Followers</span> <span
+                                        class="font-bold text-black text-xl">{{ followers}}</span> </div>
+                                <div> <span class="text-gray-400 block">Ratings</span> <span
+                                        class="font-bold text-black text-xl">{{ rating }}</span> </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- button -->
+                    <a :href='ig'><button
+                            class="w-40 ml-20 mt-2 h-12 rounded-md bg-yellow-500 text-white text-md hover:shadow hover:bg-yellow-600">instagram</button></a>
+                    <a :href='facebook'><button
+                            class="w-40 ml-20 mt-2 h-12 rounded-md border-2 text-md text-white bg-blue-600 hover:shadow hover:bg-blue-700 hover:border-blue-700 hover:text-white">facebook</button></a>
+                </div>
+            </div>
+
+            <!-- form -->
+            <div class="mr-52">
+                <form @submit.prevent="checkForm">
+                    <div class="container w-max pl-8 pr-8 pb-8 pt-2 mt-10 border rounded-lg">
+                        <h1 class="text-2xl pt-4 pb-4">Profile Form</h1>
+                        <p v-if="errors" class="text-red-500">
+                            <b>Please correct the following error(s):</b>
+                        <ul>
+                            <li v-for="error in errors" class="text-red-500">{{ error }}</li>
+                        </ul>
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col">
+                                <label for="firstname" class="text-sm leading-7 text-gray-600">First Name</label>
+                                <input type="text" id="firstname" v-model="firstname" name="firstname"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="lastname" class="text-sm leading-7 text-gray-600">Last Name</label>
+                                <input type="text" id="lastname" v-model="lastname" name="lastname"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="age" class="text-sm leading-7 text-gray-600">Age</label>
+                                <input type="text" id="age" v-model="age" name="age"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+                            <div class="flex flex-col">
+                                <label class="text-sm leading-7 text-gray-600">Gender</label>
+                                <div class="flex flex-row pt-2 space-x-3 mt-1">
+                                    <input type="radio" id="Male" v-model="gender" name="gender" value="M"
+                                        class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2">
+                                    <label for="Male" class="-mt-1">Male</label>
+                                    
+                                    <input type="radio" id="Female" v-model="gender" name="gender" value="F"
+                                        class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2">
+                                    <label for="Female" class="-mt-1">Female</label>
+                                </div>
+                            </div>
+                            <div class="flex flex-col col-span-2">
+                                <label for="email" class="text-sm leading-7 text-gray-600">Email</label>
+                                <input type="text" id="email" v-model="email" name="email"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+                            <div class="flex flex-col col-span-1">
+                                <label for="phone" class="text-sm leading-7 text-gray-600">Phone Number</label>
+                                <input type="text" id="phone" v-model="phone" name="phone"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+                            <div class="flex flex-col col-span-1">
+                                <label for="faculty" class="text-sm leading-7 text-gray-600">Faculty</label>
+                                <input type="text" id="faculty" v-model="faculty" name="faculty"
+                                    class="bg-gray-200 hover:bg-blue-200 rounded px-4 py-2 mb-4">
+                            </div>
+
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit"
+                                class="px-8 py-2 mt-10 text-white bg-blue-700 rounded-lg hover:bg-blue-600 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- my main.js -->
+    <script src="./Profile.js"></script>
+</body>
+
+</html>
